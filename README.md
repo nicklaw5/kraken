@@ -31,6 +31,24 @@ Or you can simply import using the Go toolchain:
 go get -u github.com/nicklaw5/kraken
 ```
 
+## Usage
+
+This is a quick example of how to get a clip.
+
+```go
+twitch, err := kraken.NewClient("your-client-id", nil)
+if err != nil {
+    // handle error
+}
+
+clip, err := twitch.GetClip("AwkwardHelplessSalamanderSwiftRage")
+if err != nil {
+    // handle error
+}
+
+fmt.Printf("%+v\n", clip)
+```
+
 ## License
 
 This package is distributed under the terms of the [MIT](License) License.
