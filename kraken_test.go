@@ -34,6 +34,8 @@ func (mtc *mockHTTPClient) Do(req *http.Request) (*http.Response, error) {
 }
 
 func TestNewClient(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		clientID   string
 		httpClient HTTPClient
@@ -48,7 +50,7 @@ func TestNewClient(t *testing.T) {
 		c, err := NewClient(testCase.clientID, testCase.httpClient)
 		if err != nil {
 			if testCase.shouldFail {
-				return
+				continue
 			}
 			t.Error(err)
 		}
