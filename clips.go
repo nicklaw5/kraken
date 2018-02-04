@@ -73,10 +73,7 @@ type ManyClips struct {
 // ClipsResponse ...
 type ClipsResponse struct {
 	ResponseCommon
-	Data struct {
-		Clips  []Clip `json:"clips"`
-		Cursor string `json:"_cursor"`
-	}
+	Data ManyClips
 }
 
 // TopClipsParams ...
@@ -93,12 +90,7 @@ type TopClipsParams struct {
 // GetTopClips gets the top clips which meet a specified set of parameters.
 // Note that if both channel and game are specified, game is ignored.
 func (c *Client) GetTopClips(params *TopClipsParams) (*ClipsResponse, error) {
-	clips, err := c.manyClipsRequest("/clips/top", &ManyClips{}, params)
-	if err != nil {
-		return nil, err
-	}
-
-	return clips, nil
+	return c.manyClipsRequest("/clips/top", params)
 }
 
 // FollowedClipsParams ...
@@ -111,16 +103,11 @@ type FollowedClipsParams struct {
 // GetFollowedClips the top clips for the games followed by a specified user,
 // identified by an OAuth token.
 func (c *Client) GetFollowedClips(params *FollowedClipsParams) (*ClipsResponse, error) {
-	clips, err := c.manyClipsRequest("/clips/followed", &ManyClips{}, params)
-	if err != nil {
-		return nil, err
-	}
-
-	return clips, nil
+	return c.manyClipsRequest("/clips/followed", params)
 }
 
-func (c *Client) manyClipsRequest(path string, data, params interface{}) (*ClipsResponse, error) {
-	resp, err := c.get(path, data, params)
+func (c *Client) manyClipsRequest(path string, params interface{}) (*ClipsResponse, error) {
+	resp, err := c.get(path, &ManyClips{}, params)
 	if err != nil {
 		return nil, err
 	}

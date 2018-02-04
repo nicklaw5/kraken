@@ -11,12 +11,9 @@ import (
 )
 
 const (
+	basePath  = "https://api.twitch.tv/kraken"
 	methodGet = "GET"
-)
-
-var (
-	basePath = "https://api.twitch.tv/kraken"
-	queryTag = "query"
+	queryTag  = "query"
 )
 
 // HTTPClient ...
@@ -94,11 +91,13 @@ func buildQueryString(req *http.Request, v interface{}) (string, error) {
 
 	query := req.URL.Query()
 	t := reflect.TypeOf(v).Elem()
+	val := reflect.ValueOf(v).Elem()
 
 	for i := 0; i < t.NumField(); i++ {
+		var defaultValue string
+
 		field := t.Field(i)
 		tag := field.Tag.Get(queryTag)
-		defaultValue := ""
 
 		// Get the default value from the struct tag
 		if strings.Contains(tag, ",") {
@@ -109,7 +108,7 @@ func buildQueryString(req *http.Request, v interface{}) (string, error) {
 		}
 
 		// Get the value passed in by the user
-		value := fmt.Sprintf("%v", reflect.Indirect(reflect.ValueOf(v)).FieldByName(field.Name))
+		value := fmt.Sprintf("%v", val.Field(i))
 
 		// If no value was set by the user, use the default
 		// value specified in the struct tag.

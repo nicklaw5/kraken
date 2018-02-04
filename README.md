@@ -7,15 +7,24 @@ A Twitch Kraken API (v5) client written in Go. If you are looking for a client f
 
 ## Package Status
 
-This project is a work in progress. Below is a list of currently supported endpoints. Happy for others to contribute.
+This project is a work in progress. Below is a list of currently supported endpoints. Until a release is cut, consider this API to be unstable.
 
 ## Supported Endpoints
 
-- [ ] GET /bits/actions
-- [x] GET /clips/:slug
-- [x] GET /clips/top
-- [x] GET /clips/followed
-- [ ] GET /feed/:channel-id/posts
+- [ ] Bits
+- [ ] Channel Feed
+- [ ] Channels
+- [ ] Chat
+- [x] Clips
+- [ ] Collections
+- [ ] Communities
+- [ ] Games
+- [ ] Ingests
+- [ ] Search
+- [ ] Streams
+- [ ] Teams
+- [ ] Users
+- [ ] Videos
 
 ## Getting Started
 
@@ -36,12 +45,12 @@ go get -u github.com/nicklaw5/kraken
 This is a quick example of how to get a clip.
 
 ```go
-twitch, err := kraken.NewClient("your-client-id", nil)
+client, err := kraken.NewClient("your-client-id", nil)
 if err != nil {
     // handle error
 }
 
-clip, err := twitch.GetClip("AwkwardHelplessSalamanderSwiftRage")
+clip, err := client.GetClip("AwkwardHelplessSalamanderSwiftRage")
 if err != nil {
     // handle error
 }
